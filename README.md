@@ -1,4 +1,4 @@
-# Calculadora de Impresión 3D
+# Calculadora de costos de Impresión 3D
 
 App de escritorio para estimar costos de impresión 3D. Calcula el volumen exacto de figuras geométricas utilizando integrales (vía `sympy`) y genera una vista previa 3D (`matplotlib`), aplicando luego parámetros reales de impresión (relleno, soportes, desperdicio y costo de máquina).
 
