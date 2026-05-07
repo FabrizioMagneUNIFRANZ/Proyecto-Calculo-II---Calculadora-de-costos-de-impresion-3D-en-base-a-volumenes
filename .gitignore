@@ -1,0 +1,22 @@
+# Entornos virtuales (el motivo más común de los "miles de archivos")
+.venv/
+venv/
+env/
+ENV/
+
+# Byte-compiled / archivos de caché
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribución / empaquetado
+dist/
+build/
+*.egg-info/
+
+# Variables de entorno (¡Seguridad!)
+.env
+
+# Configuraciones de IDE (Opcional, pero recomendado)
+.vscode/
+.idea/
