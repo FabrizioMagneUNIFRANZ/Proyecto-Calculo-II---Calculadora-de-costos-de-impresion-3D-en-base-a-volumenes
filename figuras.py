@@ -1,7 +1,5 @@
 import sympy as sp
 
-r, theta, rho, phi = sp.symbols("r theta rho phi", positive=True)
-
 FIGURAS = {
     "Prisma rectangular": {
         "parametros": [
@@ -53,6 +51,11 @@ def calcular_volumen_figura(figura, parametros_cm):
     x = sp.Symbol("x")
     y = sp.Symbol("y")
 
+    r_sym = sp.Symbol("r", positive=True)
+    theta_sym = sp.Symbol("theta", positive=True)
+    rho_sym = sp.Symbol("rho", positive=True)
+    phi_sym = sp.Symbol("phi", positive=True)
+
     if figura == "Prisma rectangular":
         largo = parametros_cm["Largo"]
         ancho = parametros_cm["Ancho"]
@@ -62,46 +65,38 @@ def calcular_volumen_figura(figura, parametros_cm):
     elif figura == "Cilindro":
         radio = parametros_cm["Radio"]
         altura = parametros_cm["Altura"]
-        volumen = sp.integrate(r, (theta, 0, 2 * sp.pi), (r, 0, radio), (z, 0, altura))
+        volumen = sp.integrate(r_sym, (theta_sym, 0, 2 * sp.pi), (r_sym, 0, radio), (z, 0, altura))
         integral = "Integral triple cilindrica con jacobiano r"
     elif figura == "Esfera":
         radio = parametros_cm["Radio"]
         volumen = sp.integrate(
-            rho**2 * sp.sin(phi),
-            (theta, 0, 2 * sp.pi),
-            (phi, 0, sp.pi),
-            (rho, 0, radio),
+            rho_sym**2 * sp.sin(phi_sym),
+            (theta_sym, 0, 2 * sp.pi),
+            (phi_sym, 0, sp.pi),
+            (rho_sym, 0, radio),
         )
         integral = "Integral triple esferica con jacobiano rho^2*sin(phi)"
     elif figura == "Semiesfera":
         radio = parametros_cm["Radio"]
         volumen = sp.integrate(
-            rho**2 * sp.sin(phi),
-            (theta, 0, 2 * sp.pi),
-            (phi, 0, sp.pi / 2),
-            (rho, 0, radio),
+            rho_sym**2 * sp.sin(phi_sym),
+            (theta_sym, 0, 2 * sp.pi),
+            (phi_sym, 0, sp.pi / 2),
+            (rho_sym, 0, radio),
         )
         integral = "Integral triple esferica sobre media esfera"
     elif figura == "Cono":
-        radio = parametros_cm["Radio"]
-        altura = parametros_cm["Altura"]
-        volumen = sp.integrate(
-            r,
-            (theta, 0, 2 * sp.pi),
-            (r, 0, radio),
-            (z, 0, altura * (1 - r / radio)),
-        )
-        integral = "Integral triple cilindrica con z entre 0 y H(1-r/R)"
+        radio = float(sp.N(parametros_cm["Radio"]))
+        altura = float(sp.N(parametros_cm["Altura"]))
+        # Volumen de un cono: (1/3) * pi * R^2 * H
+        volumen = (1 / 3) * sp.pi * (radio**2) * altura
+        integral = "Formula geometrica: (1/3)*pi*R^2*H"
     elif figura == "Paraboloide":
-        radio = parametros_cm["Radio"]
-        altura = parametros_cm["Altura"]
-        volumen = sp.integrate(
-            r,
-            (theta, 0, 2 * sp.pi),
-            (r, 0, radio),
-            (z, 0, altura * (1 - (r**2 / radio**2))),
-        )
-        integral = "Integral triple cilindrica con z entre 0 y H(1-r^2/R^2)"
+        radio = float(sp.N(parametros_cm["Radio"]))
+        altura = float(sp.N(parametros_cm["Altura"]))
+        # Volumen de un paraboloide circular: (1/2) * pi * R^2 * H
+        volumen = (1 / 2) * sp.pi * (radio**2) * altura
+        integral = "Formula geometrica: (1/2)*pi*R^2*H"
     else:
         raise ValueError("Figura no soportada.")
 
